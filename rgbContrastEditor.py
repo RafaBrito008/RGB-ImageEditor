@@ -6,7 +6,7 @@ from PIL import ImageTk, Image
 class ImageEditorApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Editor de Imágenes")
+        self.root.title("Editor de Imágenes RGB")
         self.imagen_original = None
         self.tamaño_miniatura_canal = (275, 275)
         self.setup_ui()
@@ -20,18 +20,28 @@ class ImageEditorApp:
         self.frame_superior = tk.Frame(self.root)
         self.frame_superior.pack(side=tk.TOP, fill=tk.X)
 
-        self.frame_imagen_original, self.label_imagen_original = self.create_image_frame(self.frame_superior, "Imagen Original")
-        self.frame_imagen_modificada, self.label_imagen_modificada = self.create_image_frame(self.frame_superior, "Imagen Modificada")
+        self.frame_izquierda = tk.Frame(self.frame_superior)
+        self.frame_izquierda.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+        self.frame_botones = tk.Frame(self.frame_superior)  # Frame para los botones
+        self.frame_botones.pack(side=tk.LEFT, expand=True)
+
+        self.frame_derecha = tk.Frame(self.frame_superior)
+        self.frame_derecha.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+        self.frame_imagen_original, self.label_imagen_original = self.create_image_frame(self.frame_izquierda, "Imagen Original")
+        self.frame_imagen_modificada, self.label_imagen_modificada = self.create_image_frame(self.frame_derecha, "Imagen Modificada")
 
         self.frame_inferior = tk.Frame(self.root)
         self.frame_inferior.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
-    def setup_controls(self):
-        self.boton_cargar = tk.Button(self.frame_superior, text="Cargar Imagen", command=self.cargar_imagen)
-        self.boton_cargar.pack(side=tk.BOTTOM, pady=10)
 
-        self.boton_valores_por_defecto = tk.Button(self.frame_superior, text="Estado Inicial", command=self.establecer_sliders_a_uno)
-        self.boton_valores_por_defecto.pack(side=tk.BOTTOM, pady=5)
+    def setup_controls(self):
+        self.boton_cargar = tk.Button(self.frame_botones, text="Cargar Imagen", command=self.cargar_imagen)
+        self.boton_cargar.pack(side=tk.TOP, pady=10)
+
+        self.boton_valores_por_defecto = tk.Button(self.frame_botones, text="Estado Inicial", command=self.establecer_sliders_a_uno)
+        self.boton_valores_por_defecto.pack(side=tk.TOP, pady=10)
 
     def setup_canvas_histogramas(self):
         self.label_imagen_r, self.canvas_histograma_r, self.scale_r = self.crear_canal(self.frame_inferior, "Rojo", "red")
@@ -49,6 +59,7 @@ class ImageEditorApp:
         label_image.pack()
 
         return frame, label_image
+
 
     def crear_canal(self, frame, texto, color):
         frame_canal = tk.Frame(frame)
@@ -138,6 +149,7 @@ class ImageEditorApp:
             self.generar_histogramas(imagen_modificada)
         else:
             print("Por favor, carga una imagen.")
+
 
     def mostrar_imagenes_rgb(self, imagen_r, imagen_g, imagen_b):
         imagen_r.thumbnail(self.tamaño_miniatura_canal)
