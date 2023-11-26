@@ -20,8 +20,8 @@ class ImageEditorApp:
         self.frame_superior = tk.Frame(self.root)
         self.frame_superior.pack(side=tk.TOP, fill=tk.X)
 
-        self.frame_imagen_original = self.create_image_frame(self.frame_superior, "Imagen Original")
-        self.frame_imagen_modificada = self.create_image_frame(self.frame_superior, "Imagen Modificada")
+        self.frame_imagen_original, self.label_imagen_original = self.create_image_frame(self.frame_superior, "Imagen Original")
+        self.frame_imagen_modificada, self.label_imagen_modificada = self.create_image_frame(self.frame_superior, "Imagen Modificada")
 
         self.frame_inferior = tk.Frame(self.root)
         self.frame_inferior.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -48,7 +48,7 @@ class ImageEditorApp:
         label_image = tk.Label(frame)
         label_image.pack()
 
-        return frame
+        return frame, label_image
 
     def crear_canal(self, frame, texto, color):
         frame_canal = tk.Frame(frame)
@@ -80,8 +80,8 @@ class ImageEditorApp:
             self.imagen_original = Image.open(ruta_imagen)
             self.imagen_original.thumbnail((400, 400))
             imagen_tk = ImageTk.PhotoImage(self.imagen_original)
-            self.frame_imagen_original.configure(image=imagen_tk)
-            self.frame_imagen_original.image = imagen_tk
+            self.label_imagen_original.configure(image=imagen_tk)
+            self.label_imagen_original.image = imagen_tk
             self.cargar_valores_rgb(self.imagen_original)
             self.generar_histogramas(self.imagen_original)
             self.establecer_sliders_a_uno()
