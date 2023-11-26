@@ -131,8 +131,8 @@ class ImageEditorApp:
             imagen_modificada.thumbnail((400, 400))
             imagen_tk = ImageTk.PhotoImage(imagen_modificada)
 
-            self.frame_imagen_modificada.configure(image=imagen_tk)
-            self.frame_imagen_modificada.image = imagen_tk
+            self.label_imagen_modificada.configure(image=imagen_tk)
+            self.label_imagen_modificada.image = imagen_tk
 
             self.mostrar_imagenes_rgb(r, g, b)
             self.generar_histogramas(imagen_modificada)
